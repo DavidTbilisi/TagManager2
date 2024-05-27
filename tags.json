@@ -1,0 +1,45 @@
+[{
+        "created_at": "1716837967",
+        "updated_at": "1716837967",
+        "name": "something",
+        "category": {
+            "created_at": "1716837967",
+            "updated_at": "1716837967",
+            "name": "default",
+            "color": "#000000"
+        },
+        "fullPath": "this/is/full/path"
+    },{
+        "created_at": "1716837983",
+        "updated_at": "1716837983",
+        "name": "something2",
+        "category": {
+            "created_at": "1716837983",
+            "updated_at": "1716837983",
+            "name": "default",
+            "color": "#000000"
+        },
+        "fullPath": "this/is/full/path2"
+    },{
+        "created_at": "1716837998",
+        "updated_at": "1716837998",
+        "name": "something2",
+        "category": {
+            "created_at": "1716837998",
+            "updated_at": "1716837998",
+            "name": "default",
+            "color": "#000000"
+        },
+        "fullPath": "this/is/full/path2"
+    },{
+        "created_at": "1716838497",
+        "updated_at": "1716838497",
+        "name": "something2",
+        "category": {
+            "created_at": "1716838497",
+            "updated_at": "1716838497",
+            "name": "default",
+            "color": "#000000"
+        },
+        "fullPath": "this/is/full/path2"
+    }]
