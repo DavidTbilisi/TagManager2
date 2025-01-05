@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TagManager", "TagManager\TagManager.vcxproj", "{CA09E00A-ED65-4B45-8D8D-76038E534DD0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BFF9106A-B636-4B08-B12E-C10A60EFE01E}"
+	ProjectSection(SolutionItems) = preProject
+		TagManager\TagStore.json = TagManager\TagStore.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA09E00A-ED65-4B45-8D8D-76038E534DD0}.Debug|x64.ActiveCfg = Debug|x64
+		{CA09E00A-ED65-4B45-8D8D-76038E534DD0}.Debug|x64.Build.0 = Debug|x64
+		{CA09E00A-ED65-4B45-8D8D-76038E534DD0}.Debug|x86.ActiveCfg = Debug|Win32
+		{CA09E00A-ED65-4B45-8D8D-76038E534DD0}.Debug|x86.Build.0 = Debug|Win32
+		{CA09E00A-ED65-4B45-8D8D-76038E534DD0}.Release|x64.ActiveCfg = Release|x64
+		{CA09E00A-ED65-4B45-8D8D-76038E534DD0}.Release|x64.Build.0 = Release|x64
+		{CA09E00A-ED65-4B45-8D8D-76038E534DD0}.Release|x86.ActiveCfg = Release|Win32
+		{CA09E00A-ED65-4B45-8D8D-76038E534DD0}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
