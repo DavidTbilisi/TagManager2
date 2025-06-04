@@ -34,7 +34,8 @@ cmake -S . -B build
 cmake --build build
 ```
 
-This will create an executable named `tm` in the project directory.
+The executable `tm` will be created in the `build` directory (or
+`build/Release` on Windows).
 
 ## Usage
 
@@ -129,8 +130,8 @@ For a list of available commands and usage examples:
 ## Continuous Integration
 
 The repository includes a GitHub Actions workflow that builds the project on
-Linux and Windows. Successful builds produce the `tm` executable for both
-platforms.
+Linux and Windows. Successful builds produce the `tm` executable in the
+`build` directory (or `build/Release` on Windows).
 
 ## Contributing
 
