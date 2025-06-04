@@ -23,6 +23,7 @@ jobs:
           name: tm-linux
           path: tm-linux.zip
 
+
   build-windows:
     runs-on: windows-latest
     steps:
@@ -36,8 +37,10 @@ jobs:
       - name: Package
         run: Compress-Archive -Path build\Release\tm.exe -DestinationPath tm-windows.zip
         shell: pwsh
+
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
           name: tm-windows
           path: tm-windows.zip
+
