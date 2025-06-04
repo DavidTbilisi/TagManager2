@@ -16,7 +16,7 @@ Tag Manager (tm) is a command-line utility for managing tags associated with fil
 
 ### Prerequisites
 
-- C++11 or later
+- C++17 or later
 
 ### Clone and Compile
 
@@ -27,13 +27,14 @@ git clone https://github.com/yourusername/tag-manager.git
 cd tag-manager
 ```
 
-2. Compile the source files:
+2. Build using CMake:
 
 ```bash
-g++ -o tm main.cpp
+cmake -S . -B build
+cmake --build build
 ```
 
-This will create an executable named `tm`.
+This will create an executable named `tm` in the project directory.
 
 ## Usage
 
@@ -124,6 +125,12 @@ For a list of available commands and usage examples:
 ```bash
 ./tm --help
 ```
+
+## Continuous Integration
+
+The repository includes a GitHub Actions workflow that builds the project on
+Linux and Windows. Successful builds produce the `tm` executable for both
+platforms.
 
 ## Contributing
 
