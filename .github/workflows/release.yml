@@ -25,6 +25,7 @@ jobs:
         with:
           files: dist/tm-linux.zip
 
+
   release-windows:
     runs-on: windows-latest
     steps:
@@ -39,8 +40,10 @@ jobs:
         run: mkdir -p dist
       - name: Package
         run: Compress-Archive -Path build\Release\tm.exe -DestinationPath dist/tm-windows.zip
+
         shell: pwsh
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: dist/tm-windows.zip
+

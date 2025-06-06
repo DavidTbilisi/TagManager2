@@ -15,16 +15,19 @@ jobs:
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
       - name: Build
         run: cmake --build build --config Release
+
       - name: Prepare dist
         run: mkdir -p dist
       - name: Package
         run: |
           zip -j dist/tm-linux.zip build/tm
+
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
           name: tm-linux
           path: dist/tm-linux.zip
+
 
   build-windows:
     runs-on: windows-latest
@@ -41,8 +44,10 @@ jobs:
       - name: Package
         run: Compress-Archive -Path build\Release\tm.exe -DestinationPath dist/tm-windows.zip
         shell: pwsh
+
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
           name: tm-windows
           path: dist/tm-windows.zip
+

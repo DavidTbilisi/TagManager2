@@ -6,6 +6,7 @@ Tag Manager (tm) is a command-line utility for managing tags associated with fil
 
 Current version: **0.2.0**
 
+
 ## Features
 
 - Create tags for files or directories
@@ -146,6 +147,7 @@ Linux and Windows. Successful builds produce the `tm` executable in the
 After each successful workflow run, zipped executables are published as workflow artifacts. You can download them from GitHub Actions.
 
 
+
 ## Releases
 
 When a git tag beginning with `v` is pushed, a release workflow builds the
@@ -155,10 +157,12 @@ release. Example:
 ```bash
 git tag v0.2.0
 git push origin v0.2.0
+
 ```
 
 The release page will contain downloadable `tm-linux.zip` and `tm-windows.zip`
 archives.
+
 
 ## Contributing
 

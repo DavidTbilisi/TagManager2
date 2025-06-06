@@ -11,12 +11,14 @@
 #define TM_VERSION "0.2.0"
 #endif
 
+
 using namespace std;
 
 /*
     CPP_VERSION: 17
     Name: Tag manager (alias: tm)
     Version: 0.2.0
+
     Description: creating separate tags.json file to link files or folders with tags
     Examples: 
         tm --tag algorithms ./some/folder/or/file.txt
@@ -167,6 +169,7 @@ void deleteTagByCategory(const string& category) {
 
 void printVersion() {
     cout << "tm version " << TM_VERSION << endl;
+
 }
 
 void help() {
