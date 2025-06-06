@@ -11,6 +11,7 @@
 #define TM_VERSION "0.1.0"
 #endif
 
+
 using namespace std;
 
 /*
@@ -167,6 +168,7 @@ void deleteTagByCategory(const string& category) {
 
 void printVersion() {
     cout << "tm version " << TM_VERSION << endl;
+
 }
 
 void help() {
@@ -237,6 +239,7 @@ int main(int argc, char *argv[]) {
         if (!category.empty()) deleteTagByCategory(category);
     } else if (command == "--version") {
         printVersion();
+
     }
     return 0;
 }

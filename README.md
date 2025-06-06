@@ -129,6 +129,7 @@ For a list of available commands and usage examples:
 ./tm --help
 ```
 
+
 ### Display Version
 
 ```bash
@@ -141,11 +142,13 @@ The repository includes a GitHub Actions workflow that builds the project on
 Linux and Windows. Successful builds produce the `tm` executable in the
 `build` directory (or `build/Release` on Windows).
 
+
 ### Downloading Builds
 
 After each successful workflow run, zipped executables are published as
 artifacts. Navigate to the GitHub Actions page, select a run, and download the
 `tm-linux` or `tm-windows` archive from the artifacts section.
+
 
 ## Releases
 
@@ -160,6 +163,7 @@ git push origin v0.1.0
 
 The release page will contain downloadable `tm-linux.zip` and `tm-windows.zip`
 archives.
+
 
 ## Contributing
 
