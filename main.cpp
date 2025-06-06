@@ -8,7 +8,7 @@
 
 // compile-time version supplied by CMake
 #ifndef TM_VERSION
-#define TM_VERSION "0.1.0"
+#define TM_VERSION "0.2.0"
 #endif
 
 
@@ -17,7 +17,8 @@ using namespace std;
 /*
     CPP_VERSION: 17
     Name: Tag manager (alias: tm)
-    Version: 0.1.0
+    Version: 0.2.0
+
     Description: creating separate tags.json file to link files or folders with tags
     Examples: 
         tm --tag algorithms ./some/folder/or/file.txt
@@ -239,7 +240,6 @@ int main(int argc, char *argv[]) {
         if (!category.empty()) deleteTagByCategory(category);
     } else if (command == "--version") {
         printVersion();
-
     }
     return 0;
 }

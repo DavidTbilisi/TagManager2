@@ -4,7 +4,8 @@
 
 Tag Manager (tm) is a command-line utility for managing tags associated with files or directories. It allows you to create, search, list, update, and delete tags. The tags are stored in a JSON file named `tags.json`.
 
-Current version: **0.1.0**
+Current version: **0.2.0**
+
 
 ## Features
 
@@ -129,7 +130,6 @@ For a list of available commands and usage examples:
 ./tm --help
 ```
 
-
 ### Display Version
 
 ```bash
@@ -142,12 +142,10 @@ The repository includes a GitHub Actions workflow that builds the project on
 Linux and Windows. Successful builds produce the `tm` executable in the
 `build` directory (or `build/Release` on Windows).
 
-
 ### Downloading Builds
 
-After each successful workflow run, zipped executables are published as
-artifacts. Navigate to the GitHub Actions page, select a run, and download the
-`tm-linux` or `tm-windows` archive from the artifacts section.
+After each successful workflow run, zipped executables are published as workflow artifacts. You can download them from GitHub Actions.
+
 
 
 ## Releases
@@ -157,8 +155,9 @@ project on Linux and Windows and attaches the zipped executables to a GitHub
 release. Example:
 
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.2.0
+git push origin v0.2.0
+
 ```
 
 The release page will contain downloadable `tm-linux.zip` and `tm-windows.zip`

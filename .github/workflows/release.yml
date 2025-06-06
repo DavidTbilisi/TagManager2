@@ -16,12 +16,15 @@ jobs:
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
       - name: Build
         run: cmake --build build --config Release
+      - name: Prepare dist
+        run: mkdir -p dist
       - name: Package
-        run: zip -j tm-linux.zip build/tm
+        run: zip -j dist/tm-linux.zip build/tm
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: tm-linux.zip
+          files: dist/tm-linux.zip
+
 
   release-windows:
     runs-on: windows-latest
@@ -33,10 +36,14 @@ jobs:
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
       - name: Build
         run: cmake --build build --config Release
+      - name: Prepare dist
+        run: mkdir -p dist
       - name: Package
-        run: Compress-Archive -Path build\Release\tm.exe -DestinationPath tm-windows.zip
+        run: Compress-Archive -Path build\Release\tm.exe -DestinationPath dist/tm-windows.zip
+
         shell: pwsh
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: tm-windows.zip
+          files: dist/tm-windows.zip
+

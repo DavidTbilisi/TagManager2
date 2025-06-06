@@ -4,4 +4,6 @@
 tm
 tm.exe
 tags.json
+/dist/
+
 

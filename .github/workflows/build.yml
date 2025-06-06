@@ -15,13 +15,18 @@ jobs:
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
       - name: Build
         run: cmake --build build --config Release
+
+      - name: Prepare dist
+        run: mkdir -p dist
       - name: Package
-        run: zip -j tm-linux.zip build/tm
+        run: |
+          zip -j dist/tm-linux.zip build/tm
+
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
           name: tm-linux
-          path: tm-linux.zip
+          path: dist/tm-linux.zip
 
 
   build-windows:
@@ -34,13 +39,15 @@ jobs:
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
       - name: Build
         run: cmake --build build --config Release
+      - name: Prepare dist
+        run: mkdir -p dist
       - name: Package
-        run: Compress-Archive -Path build\Release\tm.exe -DestinationPath tm-windows.zip
+        run: Compress-Archive -Path build\Release\tm.exe -DestinationPath dist/tm-windows.zip
         shell: pwsh
 
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
           name: tm-windows
-          path: tm-windows.zip
+          path: dist/tm-windows.zip
 
