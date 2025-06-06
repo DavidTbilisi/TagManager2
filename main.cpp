@@ -6,12 +6,18 @@
 #include <vector>
 #include <algorithm>
 
+// compile-time version supplied by CMake
+#ifndef TM_VERSION
+#define TM_VERSION "0.1.0"
+#endif
+
+
 using namespace std;
 
 /*
     CPP_VERSION: 17
     Name: Tag manager (alias: tm)
-    Version: 0.1
+    Version: 0.1.0
     Description: creating separate tags.json file to link files or folders with tags
     Examples: 
         tm --tag algorithms ./some/folder/or/file.txt
@@ -160,6 +166,11 @@ void deleteTagByCategory(const string& category) {
     saveTags(tags);
 }
 
+void printVersion() {
+    cout << "tm version " << TM_VERSION << endl;
+
+}
+
 void help() {
     cout << "Name: Tag manager (tm)" << endl;
     cout << "Examples: " << endl;
@@ -171,6 +182,7 @@ void help() {
     cout << "    tm --delete --tag algorithms" << endl;
     cout << "    tm --delete --name algo" << endl;
     cout << "    tm --delete --category movies" << endl;
+    cout << "    tm --version" << endl;
 }
 
 
@@ -225,6 +237,9 @@ int main(int argc, char *argv[]) {
         if (!name.empty()) deleteTag(name);
         if (!color.empty()) deleteTagByColor(color);
         if (!category.empty()) deleteTagByCategory(category);
+    } else if (command == "--version") {
+        printVersion();
+
     }
     return 0;
 }
