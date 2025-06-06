@@ -4,6 +4,8 @@
 
 Tag Manager (tm) is a command-line utility for managing tags associated with files or directories. It allows you to create, search, list, update, and delete tags. The tags are stored in a JSON file named `tags.json`.
 
+Current version: **0.1.0**
+
 ## Features
 
 - Create tags for files or directories
@@ -16,7 +18,7 @@ Tag Manager (tm) is a command-line utility for managing tags associated with fil
 
 ### Prerequisites
 
-- C++11 or later
+- C++17 or later
 
 ### Clone and Compile
 
@@ -27,13 +29,15 @@ git clone https://github.com/yourusername/tag-manager.git
 cd tag-manager
 ```
 
-2. Compile the source files:
+2. Build using CMake:
 
 ```bash
-g++ -o tm main.cpp
+cmake -S . -B build
+cmake --build build
 ```
 
-This will create an executable named `tm`.
+The executable `tm` will be created in the `build` directory (or
+`build/Release` on Windows).
 
 ## Usage
 
@@ -124,6 +128,38 @@ For a list of available commands and usage examples:
 ```bash
 ./tm --help
 ```
+
+### Display Version
+
+```bash
+./tm --version
+```
+
+## Continuous Integration
+
+The repository includes a GitHub Actions workflow that builds the project on
+Linux and Windows. Successful builds produce the `tm` executable in the
+`build` directory (or `build/Release` on Windows).
+
+### Downloading Builds
+
+After each successful workflow run, zipped executables are published as
+artifacts. Navigate to the GitHub Actions page, select a run, and download the
+`tm-linux` or `tm-windows` archive from the artifacts section.
+
+## Releases
+
+When a git tag beginning with `v` is pushed, a release workflow builds the
+project on Linux and Windows and attaches the zipped executables to a GitHub
+release. Example:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The release page will contain downloadable `tm-linux.zip` and `tm-windows.zip`
+archives.
 
 ## Contributing
 

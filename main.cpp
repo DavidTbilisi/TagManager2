@@ -1,16 +1,22 @@
 #include <iostream>
 #include <string>
-#include <time.h>
-#include <limits.h> // For PATH_MAX
-#include <unistd.h> // For realpath()
-#include <errno.h> // For errno
-#include <cstring> // For strerror()
+#include <ctime>
+#include <filesystem>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+
+// compile-time version supplied by CMake
+#ifndef TM_VERSION
+#define TM_VERSION "0.1.0"
+#endif
+
 using namespace std;
 
 /*
-    CPP_VERSION: 11
+    CPP_VERSION: 17
     Name: Tag manager (alias: tm)
-    Version: 0.1
+    Version: 0.1.0
     Description: creating separate tags.json file to link files or folders with tags
     Examples: 
         tm --tag algorithms ./some/folder/or/file.txt
@@ -33,46 +39,134 @@ struct Category {
 struct Tag {
     string created_at = to_string(time(nullptr));
     string updated_at = to_string(time(nullptr));
-    string name; // array of strings
+    string name;
     Category category;
     string fullPath;
-
 };
 
+vector<Tag> loadTags(const string& file = "tags.json");
+void saveTags(const vector<Tag>& tags, const string& file = "tags.json");
+void createTag(const string& name, const string& path);
+void searchTag(const string& name);
+void listTags();
+void updateTag(const string& name, const string& newName, const string& color);
+void deleteTag(const string& name);
+void deleteTagByColor(const string& color);
+void deleteTagByCategory(const string& category);
+vector<Tag> loadTags(const string& file) {
+    vector<Tag> tags;
+    ifstream in(file);
+    if (!in.is_open()) {
+        return tags;
+    }
+    string data((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
+    size_t pos = 0;
+    while ((pos = data.find('{', pos)) != string::npos) {
+        size_t end = data.find('}', pos);
+        if (end == string::npos) break;
+        string obj = data.substr(pos + 1, end - pos - 1);
+        auto get = [&](const string& key) {
+            string search = "\"" + key + "\"";
+            size_t kp = obj.find(search);
+            if (kp == string::npos) return string();
+            kp = obj.find('"', kp + search.size());
+            if (kp == string::npos) return string();
+            size_t ep = obj.find('"', kp + 1);
+            if (ep == string::npos) return string();
+            return obj.substr(kp + 1, ep - kp - 1);
+        };
+        Tag t;
+        t.name = get("name");
+        t.fullPath = get("fullPath");
+        t.category.name = get("category");
+        t.category.color = get("color");
+        t.created_at = get("created_at");
+        t.updated_at = get("updated_at");
+        tags.push_back(t);
+        pos = end + 1;
+    }
+    return tags;
+}
 
+void saveTags(const vector<Tag>& tags, const string& file) {
+    ofstream out(file, ios::trunc);
+    out << "[\n";
+    for (size_t i = 0; i < tags.size(); ++i) {
+        const Tag& t = tags[i];
+        out << "  {\"name\":\"" << t.name << "\",";
+        out << "\"fullPath\":\"" << t.fullPath << "\",";
+        out << "\"category\":\"" << t.category.name << "\",";
+        out << "\"color\":\"" << t.category.color << "\",";
+        out << "\"created_at\":\"" << t.created_at << "\",";
+        out << "\"updated_at\":\"" << t.updated_at << "\"}";
+        if (i + 1 < tags.size()) out << ",";
+        out << "\n";
+    }
+    out << "]\n";
+}
 
-void createTag(string name[], const string& path) {
-    // check if name is array of strings or single string
+void createTag(const string& name, const string& path) {
+    vector<Tag> tags = loadTags();
     Tag tag;
     tag.name = name;
-    tag.fullPath = path;
-
+    tag.fullPath = filesystem::absolute(path).string();
+    tag.category = Category();
+    time_t now = time(nullptr);
+    tag.created_at = to_string(now);
+    tag.updated_at = tag.created_at;
+    tags.push_back(tag);
+    saveTags(tags);
     cout << "Creating tag: " << tag.name << " with fullpath: " << tag.fullPath << endl;
 }
 
-void searchTag(string name) {
-    cout << "Searching for tag: " << name << endl;
-
+void searchTag(const string& name) {
+    vector<Tag> tags = loadTags();
+    for (const auto& t : tags) {
+        if (t.name == name) {
+            cout << t.name << " -> " << t.fullPath << endl;
+        }
+    }
 }
 
 void listTags() {
-    cout << "Listing all tags" << endl;
+    vector<Tag> tags = loadTags();
+    for (const auto& t : tags) {
+        cout << t.name << " -> " << t.fullPath << endl;
+    }
 }
 
-void updateTag(string name, string color) {
-    cout << "Updating tag: " << name << " with color: " << color << endl;
+void updateTag(const string& name, const string& newName, const string& color) {
+    vector<Tag> tags = loadTags();
+    for (auto& t : tags) {
+        if (t.name == name) {
+            t.name = newName;
+            t.category.color = color;
+            t.updated_at = to_string(time(nullptr));
+        }
+    }
+    saveTags(tags);
 }
 
-void deleteTag(string name) {
-    cout << "Deleting tag: " << name << endl;
+void deleteTag(const string& name) {
+    vector<Tag> tags = loadTags();
+    tags.erase(remove_if(tags.begin(), tags.end(), [&](const Tag& t){ return t.name == name; }), tags.end());
+    saveTags(tags);
 }
 
-void deleteTagByColor(string color) {
-    cout << "Deleting tag by color: " << color << endl;
+void deleteTagByColor(const string& color) {
+    vector<Tag> tags = loadTags();
+    tags.erase(remove_if(tags.begin(), tags.end(), [&](const Tag& t){ return t.category.color == color; }), tags.end());
+    saveTags(tags);
 }
 
-void deleteTagByCategory(string category) {
-    cout << "Deleting tag by category: " << category << endl;
+void deleteTagByCategory(const string& category) {
+    vector<Tag> tags = loadTags();
+    tags.erase(remove_if(tags.begin(), tags.end(), [&](const Tag& t){ return t.category.name == category; }), tags.end());
+    saveTags(tags);
+}
+
+void printVersion() {
+    cout << "tm version " << TM_VERSION << endl;
 }
 
 void help() {
@@ -86,6 +180,7 @@ void help() {
     cout << "    tm --delete --tag algorithms" << endl;
     cout << "    tm --delete --name algo" << endl;
     cout << "    tm --delete --category movies" << endl;
+    cout << "    tm --version" << endl;
 }
 
 
@@ -113,26 +208,35 @@ int main(int argc, char *argv[]) {
     } else if (command == "--list") {
         listTags();
     } else if (command == "--update") {
-        if (argc < 6) {
+        string tagName;
+        string newName;
+        string newColor;
+        for (int i = 2; i < argc; ++i) {
+            string arg = argv[i];
+            if (arg == "--tag" && i + 1 < argc) tagName = argv[++i];
+            else if (arg == "--name" && i + 1 < argc) newName = argv[++i];
+            else if (arg == "--color" && i + 1 < argc) newColor = argv[++i];
+        }
+        if (tagName.empty() || newName.empty() || newColor.empty()) {
             cout << "Usage: tm --update --tag <tag_name> --name <new_name> --color <new_color>" << endl;
             return 1;
         }
-        updateTag(argv[3], argv[5]);
+        updateTag(tagName, newName, newColor);
     } else if (command == "--delete") {
-        if (argc < 3) {
-            cout << "Usage: tm --delete --tag <tag_name>" << endl;
-            cout << "Usage: tm --delete --name <tag_name>" << endl;
-            return 1;
+        string name;
+        string color;
+        string category;
+        for (int i = 2; i < argc; ++i) {
+            string arg = argv[i];
+            if ((arg == "--tag" || arg == "--name") && i + 1 < argc) name = argv[++i];
+            else if (arg == "--color" && i + 1 < argc) color = argv[++i];
+            else if (arg == "--category" && i + 1 < argc) category = argv[++i];
         }
-        if (argc == 4) {
-            deleteTag(argv[3]);
-        } else if (argc == 5) {
-            if (string(argv[3]) == "--name") {
-                deleteTag(argv[4]);
-            } else if (string(argv[3]) == "--color") {
-                deleteTagByColor(argv[4]);
-            }
-        }
+        if (!name.empty()) deleteTag(name);
+        if (!color.empty()) deleteTagByColor(color);
+        if (!category.empty()) deleteTagByCategory(category);
+    } else if (command == "--version") {
+        printVersion();
     }
     return 0;
 }
